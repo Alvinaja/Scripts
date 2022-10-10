@@ -71,12 +71,6 @@ KERVER=$(make kernelversion)
 TERM=xterm
 PROCS=$(nproc --all)
 
-function changelogs() {
-        git log --oneline -15 > changelogs.txt
-        tgf "changelogs.txt" "Kernel Version: $KERVER
-	Compiler: $KBUILD_COMPILER_STRING"
-}
-
 # Telegram Setup
 git clone --depth=1 https://github.com/fabianonline/telegram.sh Telegram
 
@@ -216,4 +210,4 @@ zipping
 END=$(date +"%s")
 DIFF=$(($END - $START))
 push
-changelogs
+
