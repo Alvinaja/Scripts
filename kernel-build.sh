@@ -123,7 +123,7 @@ if [[ -d "clang-llvm" ]]; then
 	HOSTCC=clang
 	HOSTCXX=clang++
 	CROSS_COMPILE=aarch64-linux-gnu-
-	CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+	CONFIG_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
 	CLANG_TRIPLE=aarch64-linux-gnu-
 	LLVM=1
 	LLVM_IAS=1
@@ -133,7 +133,7 @@ elif [[ -d "gcc64" ]]; then
 	CC=aarch64-elf-gcc
     	LD=aarch64-elf-ld.lld
 	CROSS_COMPILE=aarch64-elf-
-	CROSS_COMPILE_ARM32=arm-eabi-
+	CONFIG_CROSS_COMPILE_COMPAT=arm-eabi-
 	AR=llvm-ar
  	NM=llvm-nm
  	OBJDUMP=llvm-objdump
