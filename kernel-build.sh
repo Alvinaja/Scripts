@@ -101,7 +101,6 @@ tgm "
 <b>• Kernel Version</b> : <code>${KERVER}</code>
 <b>• Builder Name</b> : <code>${KBUILD_BUILD_USER}</code>
 <b>• Builder Host</b> : <code>${KBUILD_BUILD_HOST}</code>
-<b>• Pipeline Host</b> : <code>Cirrus-CI</code>
 <b>• Host Core Count</b> : <code>$PROCS</code>
 <b>• Compiler</b> : <code>${KBUILD_COMPILER_STRING}</code>
 <b>+------------------------------------+</b>
