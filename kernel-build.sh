@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (C) 2022 a Himemoria
+# Copyright (C) 2022 a Renayura <renayura@proton.me>
 #
 
 msg() {
