@@ -44,7 +44,7 @@ function clone_clang() {
 function clone_gcc() {
 	msg "+--- Cloning-GCC --+"
 	git clone --depth=1 https://github.com/Renayura/gcc-arm -b master "$GCCARM_DIR" > /dev/null 2>&1
-        git clone --depth=1 https://github.com/Renayura/gcc-arm64 -b master "$GCCARM64_DIR" > /dev/null 2>&1
+	git clone --depth=1 https://github.com/Renayura/gcc-arm64 -b master "$GCCARM64_DIR" > /dev/null 2>&1
 }
 
 # Get specify compiler from command
@@ -131,12 +131,12 @@ if [[ -d "clang-llvm" ]]; then
 elif [[ -d "gcc64" ]]; then
   MAKE+=(
 	CC=aarch64-elf-gcc
-    	LD=aarch64-elf-ld.lld
+	LD=aarch64-elf-ld.lld
 	CROSS_COMPILE=aarch64-elf-
 	CONFIG_CROSS_COMPILE_COMPAT=arm-eabi-
 	AR=llvm-ar
- 	NM=llvm-nm
- 	OBJDUMP=llvm-objdump
+	NM=llvm-nm
+	OBJDUMP=llvm-objdump
 	OBJCOPY=llvm-objcopy
 	OBJSIZE=llvm-objsize
 	STRIP=llvm-strip
@@ -166,12 +166,13 @@ make -j$(nproc) ARCH=arm64 O=out \
 
 # Push kernel to channel
 function push() {
-    msg "+--- Starting-Upload ---+"
-    cd AnyKernel
-    ZIP_NAME=[$KERVER]-$KERNEL_NAME-$DEVICE_CODENAME-R-OSS-$ZDATE.zip
-    ZIP=$(echo *.zip)
-    MD5CHECK=$(md5sum "${ZIP}" | cut -d' ' -f1)
-    SHA1CHECK=$(sha1sum "${ZIP}" | cut -d' ' -f1)
+	msg "+--- Starting-Upload ---+"
+	cd AnyKernel
+	ZIP_NAME=[$KERVER]-$KERNEL_NAME-$DEVICE_CODENAME-R-OSS-$ZDATE.zip
+	ZIP=$(echo *.zip)
+	ZIP_SIZE=$(du -sh "${ZIP}" | awk '{print $1}')
+	MD5CHECK=$(md5sum "${ZIP}" | cut -d' ' -f1)
+	SHA1CHECK=$(sha1sum "${ZIP}" | cut -d' ' -f1)
 tgm "
 <b>+-----------------------------+</b>
 ✅ <b>Build Success</b>
@@ -182,6 +183,8 @@ tgm "
 - <code>${SHA1CHECK}</code>
 <b>• Zip Name</b>
 - <code>${ZIP_NAME}</code>
+<b>• Zip Size</b>
+- <code>${ZIP_SIZE}</code>
 <b>+-----------------------------+</b>
 "
 
