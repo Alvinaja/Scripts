@@ -56,8 +56,8 @@ if [[ "$1" == "clang" ]]; then
 	export PATH="$CLANG_DIR/bin:$PATH"
 elif [[ "$1" =~ "gcc" ]]; then
 	clone_gcc
-	KBUILD_COMPILER_STRING=$("$GCCARM64_DIR"/bin/aarch64-elf-gcc --version | head -n 1)
-	PATH="$GCCARM64_DIR/bin/:$GCCARM_DIR/bin/:/usr/bin:$PATH"
+	export KBUILD_COMPILER_STRING=$("$GCCARM64_DIR"/bin/aarch64-elf-gcc --version | head -n 1)
+	export PATH="$GCCARM64_DIR/bin/:$GCCARM_DIR/bin/:/usr/bin:$PATH"
 fi
 
 if [[ "$2" == "full-lto" ]]; then
