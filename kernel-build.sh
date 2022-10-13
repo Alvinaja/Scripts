@@ -36,15 +36,15 @@ ZDATE="$(date "+%Y%m%d")"
 
 function clone_clang() {
 	msg "+--- Cloning-Clang ---+"
-	wget https://raw.githubusercontent.com/Renayura/roselia-clang/main/clang-16.0.0-link.txt -O "link.txt" > /dev/null 2>&1
-	wget "$(cat link.txt)" -O "Roselia-Clang.tar.gz" > /dev/null 2>&1
-	mkdir clang-llvm && tar -xf Roselia-Clang.tar.gz -C $CLANG_DIR > /dev/null 2>&1 && rm -rf Roselia-Clang.tar.gz link.txt
+	mkdir clang-llvm && cd clang-llvm
+	bash <(curl -s https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman) -S=latest
+	cd -
 }
 
 function clone_gcc() {
 	msg "+--- Cloning-GCC --+"
-	git clone --depth=1 https://github.com/Renayura/gcc-arm -b master "$GCCARM_DIR" > /dev/null 2>&1
-	git clone --depth=1 https://github.com/Renayura/gcc-arm64 -b master "$GCCARM64_DIR" > /dev/null 2>&1
+	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master "$GCCARM_DIR" > /dev/null 2>&1
+	git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master "$GCCARM64_DIR" > /dev/null 2>&1
 }
 
 # Get specify compiler from command
