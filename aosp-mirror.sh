@@ -4,7 +4,7 @@
 
 # Function to show an informational message
 msg() {
-    echo -e "\e[1;32m$*\e[0m"
+	echo -e "\e[1;32m$*\e[0m"
 }
 
 # Installing some deps
@@ -14,7 +14,7 @@ apt-get install -y git wget tar git-lfs
 export DIR="$(pwd ...)"
 
 # set a clang version
-export CLANG_VERSION=$CLANG_VERSION  # See latest from https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master
+export CLANG_VERSION=$CLANG_VERSION # See latest from https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master
 
 mkdir ${DIR}/tmp
 cd ${DIR}/tmp

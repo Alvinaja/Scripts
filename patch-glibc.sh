@@ -16,16 +16,16 @@ ln -svf "$HOME"/glibc/usr/lib "$HOME"/glibc/usr/lib64
 
 echo "Patching glibc"
 for bin in $(find $HOME/glibc -type f -exec file {} \; | grep 'ELF .* interpreter' | awk '{print $1}'); do
-        bin="${bin::-1}"
-        echo "Patching: $bin"
-        $HOME/patchelf --set-rpath $HOME/glibc/usr/lib --force-rpath --set-interpreter $HOME/glibc/usr/lib/ld-linux-x86-64.so.2 "$bin"
+	bin="${bin::-1}"
+	echo "Patching: $bin"
+	$HOME/patchelf --set-rpath $HOME/glibc/usr/lib --force-rpath --set-interpreter $HOME/glibc/usr/lib/ld-linux-x86-64.so.2 "$bin"
 done
 
 echo "Patching Toolchain"
 for bin in $(find $WORK_DIR -type f -exec file {} \; | grep 'ELF .* interpreter' | awk '{print $1}'); do
-        bin="${bin::-1}"
-        echo "Patching: $bin"
-        $HOME/patchelf --add-rpath $HOME/glibc/usr/lib --force-rpath --set-interpreter $HOME/glibc/usr/lib/ld-linux-x86-64.so.2 "$bin"
+	bin="${bin::-1}"
+	echo "Patching: $bin"
+	$HOME/patchelf --add-rpath $HOME/glibc/usr/lib --force-rpath --set-interpreter $HOME/glibc/usr/lib/ld-linux-x86-64.so.2 "$bin"
 done
 
 echo "Cleaning"

@@ -32,8 +32,8 @@ git config --global alias.cp "cherry-pick"
 
 ##----------------------------------------------------------##
 # Setup Change-id hooks
-mkdir -p ~/.git-templates/hooks
-git config --global init.templatedir '~/.git-templates'
-curl -Lo ~/.git-templates/hooks/commit-msg https://raw.githubusercontent.com/Renayura/Scripts/master/commit-msg
-chmod u+x ~/.git-templates/hooks/commit-msg
+mkdir -p "$HOME"/.git-templates/hooks
+git config --global init.templatedir "$HOME"/.git-templates
+curl -Lo "$HOME"/.git-templates/hooks/commit-msg https://raw.githubusercontent.com/Renayura/Scripts/master/commit-msg
+chmod u+x "$HOME"/.git-templates/hooks/commit-msg
 msg "Git configiration succesfully"

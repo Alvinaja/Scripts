@@ -20,7 +20,7 @@ MODEL="Redmi Note 9"
 DEVICE_CODENAME=merlin
 DEVICE_DEFCONFIG=merlin_defconfig
 AK3_BRANCH=merlin
-KERNEL_NAME=$(cat "arch/arm64/configs/$DEVICE_DEFCONFIG" | grep "CONFIG_LOCALVERSION=" | sed 's/CONFIG_LOCALVERSION="-*//g' | sed 's/"*//g' )
+KERNEL_NAME=$(cat "arch/arm64/configs/$DEVICE_DEFCONFIG" | grep "CONFIG_LOCALVERSION=" | sed 's/CONFIG_LOCALVERSION="-*//g' | sed 's/"*//g')
 export KBUILD_BUILD_USER=Himemori
 export KBUILD_BUILD_HOST=XZI-TEAM
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
@@ -43,8 +43,8 @@ function clone_clang() {
 
 function clone_gcc() {
 	msg "+--- Cloning-GCC --+"
-	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master "$GCCARM_DIR" > /dev/null 2>&1
-	git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master "$GCCARM64_DIR" > /dev/null 2>&1
+	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master "$GCCARM_DIR" >/dev/null 2>&1
+	git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master "$GCCARM64_DIR" >/dev/null 2>&1
 }
 
 # Get specify compiler from command
@@ -61,9 +61,9 @@ elif [[ "$1" =~ "gcc" ]]; then
 fi
 
 if [[ "$2" == "full-lto" ]]; then
-	echo "CONFIG_LTO=y" >> arch/arm64/configs/"$DEVICE_DEFCONFIG"
-	echo "CONFIG_THINLTO=n" >> arch/arm64/configs/"$DEVICE_DEFCONFIG"
-	echo "CONFIG_LTO_CLANG=y" >> arch/arm64/configs/"$DEVICE_DEFCONFIG"
+	echo "CONFIG_LTO=y" >>arch/arm64/configs/"$DEVICE_DEFCONFIG"
+	echo "CONFIG_THINLTO=n" >>arch/arm64/configs/"$DEVICE_DEFCONFIG"
+	echo "CONFIG_LTO_CLANG=y" >>arch/arm64/configs/"$DEVICE_DEFCONFIG"
 fi
 
 #Check Kernel Version
@@ -76,18 +76,18 @@ git clone --depth=1 https://github.com/fabianonline/telegram.sh Telegram
 
 TELEGRAM="$MAIN_DIR/Telegram/telegram"
 tgm() {
-  "${TELEGRAM}" -H -D \
-      "$(
-          for POST in "${@}"; do
-              echo "${POST}"
-          done
-      )"
+	"${TELEGRAM}" -H -D \
+		"$(
+			for POST in "${@}"; do
+				echo "${POST}"
+			done
+		)"
 }
 
 tgf() {
-    "${TELEGRAM}" -H \
-    -f "$1" \
-    "$2"
+	"${TELEGRAM}" -H \
+		-f "$1" \
+		"$2"
 }
 
 # Post Main Information
@@ -107,61 +107,61 @@ tgm "
 "
 
 if [[ -d "clang-llvm" ]]; then
-  MAKE+=(
-	CC=clang
-	NM=llvm-nm
-	CXX=clang++
-	AR=llvm-ar
-	LD=ld.lld
-	STRIP=llvm-strip
-	OBJCOPY=llvm-objcopy
-	OBJDUMP=llvm-objdump
-	OBJSIZE=llvm-size
-	READELF=llvm-readelf
-	HOSTAR=llvm-ar
-	HOSTLD=ld.lld
-	HOSTCC=clang
-	HOSTCXX=clang++
-	CROSS_COMPILE=aarch64-linux-gnu-
-	CONFIG_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
-	CLANG_TRIPLE=aarch64-linux-gnu-
-	LLVM=1
-	LLVM_IAS=1
-)
+	MAKE+=(
+		CC=clang
+		NM=llvm-nm
+		CXX=clang++
+		AR=llvm-ar
+		LD=ld.lld
+		STRIP=llvm-strip
+		OBJCOPY=llvm-objcopy
+		OBJDUMP=llvm-objdump
+		OBJSIZE=llvm-size
+		READELF=llvm-readelf
+		HOSTAR=llvm-ar
+		HOSTLD=ld.lld
+		HOSTCC=clang
+		HOSTCXX=clang++
+		CROSS_COMPILE=aarch64-linux-gnu-
+		CONFIG_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
+		CLANG_TRIPLE=aarch64-linux-gnu-
+		LLVM=1
+		LLVM_IAS=1
+	)
 elif [[ -d "gcc64" ]]; then
-  MAKE+=(
-	CC=aarch64-elf-gcc
-	LD=aarch64-elf-ld.lld
-	CROSS_COMPILE=aarch64-elf-
-	CONFIG_CROSS_COMPILE_COMPAT=arm-eabi-
-	AR=llvm-ar
-	NM=llvm-nm
-	OBJDUMP=llvm-objdump
-	OBJCOPY=llvm-objcopy
-	OBJSIZE=llvm-objsize
-	STRIP=llvm-strip
-	HOSTAR=llvm-ar
-	HOSTCC=gcc
-	HOSTCXX=aarch64-elf-g++
-)
+	MAKE+=(
+		CC=aarch64-elf-gcc
+		LD=aarch64-elf-ld.lld
+		CROSS_COMPILE=aarch64-elf-
+		CONFIG_CROSS_COMPILE_COMPAT=arm-eabi-
+		AR=llvm-ar
+		NM=llvm-nm
+		OBJDUMP=llvm-objdump
+		OBJCOPY=llvm-objcopy
+		OBJSIZE=llvm-objsize
+		STRIP=llvm-strip
+		HOSTAR=llvm-ar
+		HOSTCC=gcc
+		HOSTCXX=aarch64-elf-g++
+	)
 fi
 
 # Compile
-compile(){
-msg "+--- Starting-Compilation ---+"
-make -j$(nproc) O=out ARCH=arm64 ${DEVICE_DEFCONFIG}
-make -j$(nproc) ARCH=arm64 O=out \
-         "${MAKE[@]}" 2>&1 | tee error.log
+compile() {
+	msg "+--- Starting-Compilation ---+"
+	make -j$(nproc) O=out ARCH=arm64 ${DEVICE_DEFCONFIG}
+	make -j$(nproc) ARCH=arm64 O=out \
+		"${MAKE[@]}" 2>&1 | tee error.log
 
-   if ! [ -a "$IMAGE" ]; then
-	finerr
-	exit 1
-   fi
+	if ! [ -a "$IMAGE" ]; then
+		finerr
+		exit 1
+	fi
 
-  git clone --depth=1 https://github.com/AthenaPrjk/AnyKernel3 -b ${AK3_BRANCH} AnyKernel
-    cp $IMAGE AnyKernel
-    cp $DTBO AnyKernel
-    mv $DTB AnyKernel/dtb
+	git clone --depth=1 https://github.com/AthenaPrjk/AnyKernel3 -b ${AK3_BRANCH} AnyKernel
+	cp $IMAGE AnyKernel
+	cp $DTBO AnyKernel
+	mv $DTB AnyKernel/dtb
 }
 
 # Push kernel to channel
@@ -173,7 +173,7 @@ function push() {
 	ZIP_SIZE=$(du -sh "${ZIP}" | awk '{print $1}')
 	MD5CHECK=$(md5sum "${ZIP}" | cut -d' ' -f1)
 	SHA1CHECK=$(sha1sum "${ZIP}" | cut -d' ' -f1)
-tgm "
+	tgm "
 <b>+-----------------------------+</b>
 ✅ <b>Build Success</b>
 - <code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s) </code>
@@ -188,28 +188,27 @@ tgm "
 <b>+-----------------------------+</b>
 "
 
-tgf "$ZIP" "$KBUILD_COMPILER_STRING"
+	tgf "$ZIP" "$KBUILD_COMPILER_STRING"
 
 }
 
 # Fin Error
 function finerr() {
-    msg "+--- Sending-Error Log ---+"
-    LOG=$(echo error.log)
-    tgf "$LOG" "❌ Build Failed. | For <b>${DEVICE_CODENAME}</b> | <b>${KBUILD_COMPILER_STRING}</b>"
-    exit 1
+	msg "+--- Sending-Error Log ---+"
+	LOG=$(echo error.log)
+	tgf "$LOG" "❌ Build Failed. | For <b>${DEVICE_CODENAME}</b> | <b>${KBUILD_COMPILER_STRING}</b>"
+	exit 1
 }
 
 # Zipping
 function zipping() {
-    msg "+--- Started Zipping ---+"
-    cd AnyKernel || exit 1
-    zip -r9 [$KERVER]-$KERNEL_NAME-$DEVICE_CODENAME-R-OSS-$ZDATE.zip *
-    cd ..
+	msg "+--- Started Zipping ---+"
+	cd AnyKernel || exit 1
+	zip -r9 [$KERVER]-$KERNEL_NAME-$DEVICE_CODENAME-R-OSS-$ZDATE.zip *
+	cd ..
 }
 compile
 zipping
 END=$(date +"%s")
 DIFF=$(($END - $START))
 push
-
