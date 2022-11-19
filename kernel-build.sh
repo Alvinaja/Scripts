@@ -32,30 +32,41 @@ DISTRO=$(source /etc/os-release && echo "${NAME}")
 # Date
 export TZ=Asia/Jakarta
 DATE="$(date +"%A, %d %b %Y")"
-ZDATE="$(date "+%Y%m%d")"
+ZDATE="$(date "+%d%m%Y")"
 
-function clone_clang() {
+function clone_neutron-clang() {
 	msg "+--- Cloning-Clang ---+"
 	mkdir clang-llvm && cd clang-llvm
 	bash <(curl -s https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman) -S=latest
 	cd -
 }
 
-function clone_gcc() {
+function clone_proton-clang() {
+	msg "+--- Cloning-Clang ---+"
+	git clone --depth=1 https://github.com/kdrag0n/proton-clang clang-llvm
+}
+
+function clone_eva-gcc() {
 	msg "+--- Cloning-GCC --+"
 	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master "$GCCARM_DIR" >/dev/null 2>&1
 	git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master "$GCCARM64_DIR" >/dev/null 2>&1
 }
 
 # Get specify compiler from command
-if [[ "$1" == "clang" ]]; then
-	clone_clang
+if [[ "$1" == "neutron-clang" ]]; then
+	clone_neutron-clang
 	CLANG_VER="$(clang-llvm/bin/clang --version | head -n 1)"
 	LLD_VER="$(clang-llvm/bin/ld.lld --version | head -n 1)"
 	export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 	export PATH="$CLANG_DIR/bin:$PATH"
-elif [[ "$1" =~ "gcc" ]]; then
-	clone_gcc
+elif [[ "$1" == "proton-clang" ]]; then
+	clone_proton-clang
+	CLANG_VER="$(clang-llvm/bin/clang --version | head -n 1)"
+	LLD_VER="$(clang-llvm/bin/ld.lld --version | head -n 1)"
+	export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
+	export PATH="$CLANG_DIR/bin:$PATH"
+elif [[ "$1" =~ "eva-gcc" ]]; then
+	clone_eva-gcc
 	export KBUILD_COMPILER_STRING=$("$GCCARM64_DIR"/bin/aarch64-elf-gcc --version | head -n 1)
 	export PATH="$GCCARM64_DIR/bin/:$GCCARM_DIR/bin/:/usr/bin:$PATH"
 fi
