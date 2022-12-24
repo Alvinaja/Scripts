@@ -21,7 +21,7 @@ DEVICE_CODENAME=merlin
 DEVICE_DEFCONFIG=merlin_defconfig
 AK3_BRANCH=merlin
 KERNEL_NAME=$(cat "arch/arm64/configs/$DEVICE_DEFCONFIG" | grep "CONFIG_LOCALVERSION=" | sed 's/CONFIG_LOCALVERSION="-*//g' | sed 's/"*//g')
-export KBUILD_BUILD_USER=Himemori
+export KBUILD_BUILD_USER=Alvin
 export KBUILD_BUILD_HOST=XZI-TEAM
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 START=$(date +"%s")
